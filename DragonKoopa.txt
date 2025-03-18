@@ -1,1 +1,74 @@
-Much for my discontent, I was the only one who could truly appreciate it, in contrast with the rest of people who managed to play it with me, or at least looking at it on the screen. When we usually moved through the first Dragon Koopa's castle. Their gaze filled with illusion and exaltation slowly withered into gaze filled with confusion and fear. I don't know why, but it was like them, unlike me, weren't capable of comprehending what they were looking at. Like the image of that majestic creature was generating them the polar opposite of what it made me feel. When the Dragon Koopa appeared on the screen, just about every time something happened that stopped them from keep playing. Sometimes, they would just go to play outside, would return home or they would start to cry or wail. They would suffer as their naive eyes would get lost at the pixels on the screen. When that happened, I usually got angry, and started to insult them in ways that only children could understand.
+player = {
+    x = 32, y = 32,  
+    w = 8, h = 8,  
+    vx = 0, vy = 0,  
+    ax = 0.2,  
+    friction = 0.85,  
+    max_speed = 2,  
+    jump_power = -3.5,  
+    gravity = 0.2,  
+    max_fall_speed = 2.5,  
+    landing_smoothness = 0.2  -- New: Smooth transition when hitting ground
+}
+
+function is_on_ground()
+    -- Check if there's solid ground just below the player
+    return is_solid_rect(player.x, player.y + 1, player.w, player.h)
+end
+
+function move_player()
+    local dx = (btn(1) and 1 or 0) - (btn(0) and 1 or 0)  
+
+    -- Apply horizontal acceleration
+    if dx ~= 0 then
+        player.vx = player.vx + dx * player.ax
+    end
+
+    -- Jumping
+    if btnp(4) and is_on_ground() then
+        player.vy = player.jump_power
+    end
+
+    -- Apply gravity
+    player.vy = player.vy + player.gravity
+
+    -- Limit falling speed
+    player.vy = mid(-player.max_fall_speed, player.vy, player.max_fall_speed)
+
+    -- Predict new position
+    local new_x = player.x + player.vx
+    local new_y = player.y + player.vy
+
+    -- Collision check
+    if not is_solid_rect(new_x, player.y, player.w, player.h) then
+        player.x = new_x
+    else
+        player.vx = 0  -- Stop movement if colliding horizontally
+    end
+
+    if not is_solid_rect(player.x, new_y, player.w, player.h) then
+        player.y = new_y
+    else
+
+        if player.vy > 0 then  
+            player.vy = player.vy * player.landing_smoothness  -- Soft landing effect
+        else
+            player.vy = 0  -- Only reset if not falling
+        end
+    end
+
+    -- Apply friction when grounded
+    if is_on_ground() then
+        player.vx = player.vx * player.friction
+    end
+end
+
+function _update()
+    move_player()
+end
+
+function _draw()
+    cls()
+    map()
+    spr(1, player.x, player.y)
+end
