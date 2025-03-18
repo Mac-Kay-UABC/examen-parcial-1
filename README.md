@@ -1,4 +1,5 @@
 Bitacora del Examen Parcial 1
+
 1.a) En el directorio de archivos de la computadora, se creó una carpeta llamada ExamParc1
 
 1.b) Se crearon 4 archivos de texto, las cuales contienen texto o programas rudimentarios de Python
@@ -20,3 +21,9 @@ Bitacora del Examen Parcial 1
 5.a) Se hicieron cambios en los dos archivos de Python para que hagan cosas completamente diferentes
 
 5.b) Se agregaron estas instrucciones al archivo README que se creó en GitHub (y que para este punto ya se encuentra en la misma computadora)
+
+5.c) Se guardan los cambios con git add, se agregan al repositorio usando git commit y se publica a GitHub usando git push
+
+6.a) Dentro de GitHub se modificaron los 2 archivos de texto, cambiando su contenido con texto diferente
+
+6.b) Se agregaron la versión más actualizada de los instrucciones al archivo README que se creó en GitHub, fueron enviados al repositorio local Y fueron publicado de nueva en GitHub (y que para este punto ya fueron publicados en GitHub)
